@@ -8,6 +8,8 @@ import TitleContainer from "../GlobalStyleds/TitleContainer";
 import { useState } from "react";
 import FormFooter from "../SignInAndSignUpStyleds/Styleds/FormFooter";
 import { ThreeDots } from "react-loader-spinner";
+import useAuth from "../hooks/userAuth";
+import { useEffect } from "react/cjs/react.production.min";
 
 export default function SignInPage(){
 
@@ -17,21 +19,30 @@ export default function SignInPage(){
         password: "",
     });
     const [buttonStatus, setButtonStatus] = useState("");
+    const {auth, login} = useAuth();
+
+    useEffect(() => {
+        if(auth){
+            navigate("/timeline");
+        }
+    })
 
     function controlledInput(e) {
     setSignInForm({ ...signInForm, [e.target.name]: e.target.value });
     }
 
     async function signIn(e) {
-    e.preventDefault();
-    try {
-        setButtonStatus("")
-        navigate('/')
-    } catch (error) {
-        setButtonStatus("")
-        console.log(error.response.data);
+        e.preventDefault();
+        try {
+            const token = "bearer"
+            login(token);
+            setButtonStatus("")
+            navigate('/')
+        } catch (error) {
+            setButtonStatus("")
+            console.log(error.response.data);
+        }
     }
-  }
 
 
     return(
