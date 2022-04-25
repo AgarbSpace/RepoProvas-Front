@@ -8,8 +8,6 @@ const ContentContainer = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     margin-top: 34px;
-    overflow-y: scroll;
-
 `
 
 export default ContentContainer;

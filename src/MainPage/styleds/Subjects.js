@@ -2,8 +2,6 @@ import styled from "styled-components"
 
 const Subjects = styled.div`
     width: 100%;
-
-    margin-top: 55px;
     padding-left: 10px;
     padding-right: 10px;
 

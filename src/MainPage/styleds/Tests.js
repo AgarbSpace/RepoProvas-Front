@@ -24,6 +24,14 @@ const Tests = styled.div`
         letter-spacing: 0.15000000596046448px;
         text-align: left;
         color: #878787;
+
+        a{
+            text-decoration: none;
+            color: #878787;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
     }
 `
 

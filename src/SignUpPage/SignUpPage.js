@@ -8,6 +8,7 @@ import TitleContainer from "../GlobalStyleds/TitleContainer";
 import { useState } from "react";
 import FormFooter from "../SignInAndSignUpStyleds/Styleds/FormFooter";
 import { ThreeDots } from "react-loader-spinner";
+import api from "../services/api";
 
 export default function SignUpPage(){
 
@@ -24,15 +25,23 @@ export default function SignUpPage(){
     }
 
     async function signUp(e) {
-    e.preventDefault();
-    try {
-        setButtonStatus("")
-        navigate('/')
-    } catch (error) {
-        setButtonStatus("")
-        console.log(error.response.data);
+        e.preventDefault();
+            if(signUpForm.password !== signUpForm.confirmPassword){
+                alert("Invalid credentials");
+                setButtonStatus("");
+                return;
+            }
+
+        try {
+            delete signUpForm.confirmPassword
+            await api.signUp(signUpForm);
+            setButtonStatus("");
+            navigate('/signIn');
+        } catch (error) {
+            setButtonStatus("");
+            alert(error.response.data);
+        }
     }
-  }
 
     return(
         <Container>
@@ -48,7 +57,7 @@ export default function SignUpPage(){
                 <form onSubmit={signUp} status={buttonStatus}>
                     <input type="email" placeholder="Email" name="email" value={signUpForm.email} onChange={controlledInput}/>
                     <input type="password" placeholder="Senha" name="password" value={signUpForm.password} onChange={controlledInput}/>
-                    <input type="password" placeholder="Confirme sua senha" name="password" value={signUpForm.password} onChange={controlledInput}/>
+                    <input type="password" placeholder="Confirme sua senha" name="confirmPassword" value={signUpForm.confirmPassword} onChange={controlledInput}/>
                     <FormFooter>
                         <Link to = "/signIn">Já possuo cadastro</Link>
                         <FooterButton type="submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={30} width={30} /> : "Cadastrar"}</FooterButton>
